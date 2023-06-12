@@ -1,8 +1,9 @@
 **Shell Permissions Tasks**
 
-Task 0: A script that switches the current user to the user betty \n
-Taks 1:A script that the effective username of the current user \n
-Task 2:A script that prints all the groups the user is part of \n
+Task 0: A script that switches the current user to the user betty 
+
+Taks 1:A script that the effective username of the current user 
+Task 2:A script that prints all the groups the user is part of 
 Task 3: A scipt that changes the owner of the file hello to the user betty \n
 Task 4:A script that creates an empty file called hello \n
 Task 5:A script that adds execute permissions to the owner of the file hello \n
