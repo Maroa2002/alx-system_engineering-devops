@@ -1,3 +1,5 @@
+# creates file in /tmp
+
 file {'/tmp/school':
   ensure  => 'present',
   owner   => 'www-data',
@@ -5,3 +7,4 @@ file {'/tmp/school':
   mode    => '0744',
   content => 'I love Puppet'
 }
+
