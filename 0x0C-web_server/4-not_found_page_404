@@ -1,12 +1,26 @@
 #!/usr/bin/env bash
-# Configure a new Nginx server so that /redirect_me is redirecting to another page.
+# Managing nginx installation, redirection and 404 error
 
 sudo apt-get -y update
-sudo apt-get -y upgrade
-sudo apt-get -y install nginx
-sudo service nginx start
-echo "Ceci n'est pas une page" | sudo tee /var/www/html/404.html
-new_string="\\\terror_page 404 /404.html;\n\tlocation = /404.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}"
-sudo sed -i "20i $new_string" /etc/nginx/sites-available/default
-sudo service nginx restart
-sudo service nginx reload
+sudo apt-get install -y nginx
+sudo systemctl start nginx
+
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+sudo systemctl reload nginx
+
+if ! grep -q "location /redirect_me {" /etc/nginx/sites-enabled/default; then
+sudo sed -i '/server_name _;/a\
+        location \/redirect_me {\
+            return 301 https:\/\/google.com;\
+        }' /etc/nginx/sites-enabled/default
+sudo systemctl reload nginx
+fi
+
+if ! grep -q "error_page 404 /404.html;" /etc/nginx/sites-enabled/default; then
+# Configuring Custom 404 page
+sudo sed -i '/server_name _;/a\
+        error_page 404 /404.html;' /etc/nginx/sites-enabled/default
+
+# Reloading Nginx service
+sudo systemctl reload nginx
+fi
