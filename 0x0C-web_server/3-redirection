@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 # redirecting to another page
 
+new_string="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
+
 sudo apt-get -y update
 sudo apt-get -y install nginx
 
-sudo service nginx start
-
-new_string="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
+echo 'Hello World!' | sudo tee /var/www/html/index.html
 sudo sed -i "19i $new_string" /etc/nginx/sites-available/default
 
-# restart nginx
-sudo service nginx restart
-
-sudo service nginx reload
+sudo service nginx start
