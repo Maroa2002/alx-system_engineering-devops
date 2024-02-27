@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
-# installing nginx web server
-
-# updating and upgrading apt-get
-sudo apt-get update -y
-# upgrading apt-get
-sudo apt-get upgrade -y
-# installing nginx
-sudo apt-get install nginx -y
-# starting nginx service
+# Install and setup nginx into the server
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install nginx
 sudo service nginx start
-# adding string to a page
-echo "Hello World!" | sudo tee /var/www/html/index.html
+echo 'Hello World!' | sudo tee /var/www/html/index.html
