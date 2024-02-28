@@ -1,17 +1,24 @@
 #!/usr/bin/env bash
-# Managing nginx installation, redirection and 404 error
+#Managing nginx installation, redirection and 404 error
 
+# Update package information
 sudo apt-get -y update
+
+# Install Nginx
 sudo apt-get install -y nginx
+
+# Start Nginx service
 sudo systemctl start nginx
 
+# Creating an index.html page
 echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
 sudo systemctl reload nginx
 
+# Configuring 301 Redirection
 if ! grep -q "location /redirect_me {" /etc/nginx/sites-enabled/default; then
 sudo sed -i '/server_name _;/a\
         location \/redirect_me {\
-            return 301 https:\/\/google.com;\
+            return 301 https:\/\/github.com\/Maroa2002;\
         }' /etc/nginx/sites-enabled/default
 sudo systemctl reload nginx
 fi
