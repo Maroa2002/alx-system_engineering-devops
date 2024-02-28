@@ -1,12 +1,25 @@
 #!/usr/bin/env bash
-# redirecting to another page
+# A Script that configures a new Ubuntu machine to Perform a 301-redirection
 
-new_string="\\\trewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;"
-
+# updating and installing nginx
 sudo apt-get -y update
-sudo apt-get -y install nginx
+sudo apt-get install -y nginx
 
-echo 'Hello World!' | sudo tee /var/www/html/index.html
-sudo sed -i "19i $new_string" /etc/nginx/sites-available/default
+# starting nginx service
+sudo systemctl start nginx
 
-sudo service nginx start
+# Creating an index.html page containing a string
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+# reloading nginx service
+sudo systemctl reload nginx
+
+# Using sed to do a 301 Redirection
+if ! grep -q "location /redirect_me {" /etc/nginx/sites-enabled/default; then
+    sudo sed -i '/server_name _;/a\
+            location /redirect_me {\
+                return 301 https://github.com/Maroa2002;\
+            }' /etc/nginx/sites-enabled/default
+    # Reload Nginx service
+    sudo systemctl reload nginx
+fi
