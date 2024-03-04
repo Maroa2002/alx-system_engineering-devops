@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Configuring Nginx so that its HTTP response contains a custom header
+
+# Update package information
+sudo apt-get -y update
+
+# Install Nginx
+sudo apt-get install -y nginx
+
+# Start Nginx service
+sudo service nginx start
+
+# Creating an index.html page
+echo "Hello World!" | sudo tee /var/www/html/index.html > /dev/null
+
+# Configuring a 301 Redirection
+if ! grep -q "location /redirect_me {" /etc/nginx/sites-enabled/default; then
+    sudo sed -i '/server_name _;/a \
+        location \/redirect_me { \
+            return 301 https:\/\/github.com\/Maroa2002; \
+        }' /etc/nginx/sites-enabled/default
+fi
+
+# Configuring a Custom 404 page
+if ! grep -q "error_page 404 /404.html;" /etc/nginx/sites-enabled/default; then
+    sudo sed -i '/server_name _;/a \
+        error_page 404 /404.html;' /etc/nginx/sites-enabled/default
+fi
+
+# Configuring a Custom Nginx header
+if ! grep -q "add_header X-Served-By \$hostname;" /etc/nginx/sites-enabled/default; then
+    sudo sed -i '/server_name _;/a \
+        add_header X-Served-By \$hostname;' /etc/nginx/sites-enabled/default
+fi
+
+# Restart Nginx service to apply changes
+sudo service nginx restart
