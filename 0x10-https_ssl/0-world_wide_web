@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Script: 0-world_wide_web
+# Description: Shows information about subdomains.
+
+# Function to fetch and display information about a subdomain
+display_info() {
+    local domain="$1" # Store the domain name
+    local subdomain="$2" # Store the subdomain name
+
+    # Use dig to fetch DNS information for the specified subdomain and domain,
+    # then use awk to extract the relevant line(s) containing DNS record information.
+    # Print formatted information about the subdomain, including its type (record) and the IP address it points to.
+    printf "The subdomain %s is a " "$subdomain"
+    dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | awk -F' ' '{ printf $4 }'
+    printf " record and points to "
+    dig "$subdomain.$domain" | grep -A1 'ANSWER SECTION:' | awk -F' ' '{printf $5 }'
+    echo ""
+}
+
+if [ "$#" -eq 1 ]; then
+    # If there is one argument, call the domain_info function with different subdomains and the provided domain.
+#    display_info "$1" "www"
+#    display_info "$1" "lb-01"
+#    display_info "$1" "web-01"
+#    display_info "$1" "web-02"
+    for i in "www" "lb-01" "web-01" "web-02"
+    do
+        display_info "$1" "$i"
+    done
+elif [ "$#" -eq 2 ]; then
+    # If there are two arguments, call the domain_info function with the provided domain and subdomain.
+    display_info "$1" "$2"
+fi
