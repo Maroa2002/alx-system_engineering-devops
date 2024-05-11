@@ -1,21 +1,22 @@
 #!/usr/bin/python3
-'''Module that tests out the Reddit API'''
+"""
+Query Reddit API for number of subscribers for a given subreddit
+"""
 import requests
 
 
 def number_of_subscribers(subreddit):
-    '''
-    Queries the Reddit API and returns the number of subscribers
-    (not active users, total subscribers) for a given subreddit
-    '''
-    if subreddit is None or not isinstance(subreddit, str):
+    """
+        return number of subscribers for a given subreddit
+        return 0 if invalid subreddit given
+    """
+    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
+
+    headers = requests.utils.default_headers()
+    headers.update({'User-Agent': 'My User Agent 1.0'})
+
+    r = requests.get(url, headers=headers).json()
+    subscribers = r.get('data', {}).get('subscribers')
+    if not subscribers:
         return 0
-    headers = {'User-Agent': 'VICTORY'}
-    response = requests.get(
-        'https://www.reddit.com/r/{}/about.json'.format(str(subreddit)),
-        headers=headers,
-        allow_redirects=False)
-    if response.status_code != 200:
-        return 0
-    data = response.json()
-    return data.get('data').get('subscribers')
+    return subscribers
