@@ -2,7 +2,7 @@
 # ssh client configuration file
 # IdentityFile: ~/.ssh/school, PasswordAunthentication: no
 
-Host 18.209.179.165
+Host 18.233.65.167
     PasswordAuthentication no
     IdentityFile ~/.ssh/school no
 
