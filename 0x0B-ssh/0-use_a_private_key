@@ -2,5 +2,6 @@
 # using ssh to connect to server
 # user = ubuntu, private key = ~/.ssh/school
 
-ssh -i ~/.ssh/school ubuntu@18.209.179.165
+#ssh -i ~/.ssh/school ubuntu@18.209.179.165 - previous server
+ssh -i ~/.ssh/school ubuntu@18.233.65.167
 
