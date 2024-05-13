@@ -44,5 +44,5 @@ frontend www-https
 
 backend app_servers
     balance roundrobin
-    server 437785-web-01 18.209.179.165:80 check
-    server 437785-web-02 52.91.117.26:80 check
+    server 437785-web-01 18.233.65.167:80 check
+    server 437785-web-02 54.90.58.139:80 check
